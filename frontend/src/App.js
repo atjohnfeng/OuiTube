@@ -6,7 +6,7 @@ const socket = io.connect("http://localhost:4000");
 function App() {
   return (
     <div className="App">
-        Hello! Welcome. 
+        OuiTube is coming soon.
     </div>
   );
 }
