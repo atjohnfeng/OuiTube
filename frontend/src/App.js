@@ -14,7 +14,7 @@ const App = () => {
   // filled in.
   const joinRoom = () => {
     if (username.length > 0 && room.length > 0) {
-
+      socket.emit("joinRoom", room)
     }
   }
 
