@@ -3,7 +3,15 @@ import { useState } from 'react';
 import io from "socket.io-client";
 import Room from './Room';
 
-const socket = io.connect("http://localhost:4000");
+let environment;
+
+if (process.env.NODE_ENV === 'production') {
+  environment = 'https://oui-tube-backend.vercel.app/';
+} else {
+  environment = "http://localhost:4000");
+}
+
+const socket = io.connect(environment);
 
 const App = () => {
 
