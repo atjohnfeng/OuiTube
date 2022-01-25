@@ -9,6 +9,7 @@ const Room = (props) => {
 
     // Create State for Video using React Hooks
     const [ video, enterVideo ] = useState("");
+    const [ currentVideo, setCurrentVideo ] = useState("");
     const [ videoShow, setShow ] = useState(false);
     const [ newMessage, setNewMessage ] = useState("");
     const [ messages, setMessages ] = useState([]);
@@ -39,20 +40,15 @@ const Room = (props) => {
             let embedLink = video.split("watch?v=");
             if (embedLink.length !== 2) {
                 alert('Not a valid URL.');
-                setShow(false);
                 enterVideo("");
             } else {
                 embedLink = embedLink.join('embed/');
                 await socket.emit("setVideo", [embedLink, room]);
-                enterVideo(embedLink);
+                setCurrentVideo(embedLink);
                 setShow(true);
             }
         }
     }
-    
-    // const leave = () => {
-    //     leaveRoom();
-    // }
 
     // Add event listener to listen to event changes
     useEffect(() => {
@@ -67,7 +63,7 @@ const Room = (props) => {
     useEffect(() => {
         socket.on("receiveVideo", video => {
             // console.log(video);
-            enterVideo(video[0]);
+            setCurrentVideo(video[0]);
             setShow(true);
         })
     }, [socket]);
@@ -80,7 +76,7 @@ const Room = (props) => {
             </div>
             <div className="video-box">
                 { videoShow ? ( <iframe width="420" height="315"
-                    src={video}> 
+                    src={currentVideo}> 
                 </iframe> ) : ( <div className="empty-video">
                     Enter a valid YouTube URL</div> )}
                 <br />
