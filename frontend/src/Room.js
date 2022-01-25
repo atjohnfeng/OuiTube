@@ -38,7 +38,7 @@ const Room = (props) => {
         if (video.length > 0) {
             let embedLink = video.split("watch?v=");
             embedLink = embedLink.join('embed/');
-            await socket.emit("setVideo", embedLink);
+            await socket.emit("setVideo", [embedLink, room]);
             enterVideo(embedLink);
             setShow(true);
         }
@@ -54,11 +54,13 @@ const Room = (props) => {
         });
     }, [socket]);
 
-    // useEffect(() => {
-    //     socket.on("receiveVideo", video => {
-    //         console.log(video);
-    //     })
-    // })
+    useEffect(() => {
+        socket.on("receiveVideo", video => {
+            // console.log(video);
+            enterVideo(video[0]);
+            setShow(true);
+        })
+    }, [socket]);
     
     return (
         <div className="room-container">

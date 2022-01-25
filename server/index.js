@@ -30,6 +30,11 @@ io.on("connection", (socket) => {
         // console.log(message);
         socket.to(message.room).emit("receiveMessages", message);
     });
+
+    socket.on("setVideo", (video) => {
+        // console.log(video);
+        socket.to(video[1]).emit("receiveVideo", video);
+    })
 });
 
 server.listen(port, () => {
