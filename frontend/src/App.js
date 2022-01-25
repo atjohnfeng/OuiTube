@@ -17,7 +17,7 @@ const App = () => {
   // filled in.
   const joinRoom = () => {
     if (username.length > 0 && room.length > 0) {
-      socket.emit("joinRoom", room)
+      socket.emit("joinRoom", [username, room])
     } else {
       alert("Invalid username and/or Room ID.");
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 
 const Room = (props) => {
@@ -26,6 +26,13 @@ const Room = (props) => {
             await socket.emit("sendMessage", message);
         }
     }
+
+    // Add event listener to listen to event changes
+    useEffect(() => {
+        socket.on("receiveMessages", (messages) => {
+            console.log(messages)
+        });
+    }, [socket]);
     
     return (
         <div className="room-container">
