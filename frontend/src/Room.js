@@ -52,6 +52,7 @@ const Room = (props) => {
             await socket.emit("setVideo", [video, room]);
             setCurrentVideo(video);
             setShow(true);
+            enterVideo("");
             // }
         }
     }
@@ -114,7 +115,7 @@ const Room = (props) => {
                 : ( <div className="empty-video">
                     Enter a valid YouTube URL</div> )}
                 <br />
-                Current Video: { !!currentVideo ? currentVideo : 'None' }
+                Currently Playing: { !!currentVideo ? currentVideo : 'None' }
                 <br />
                 <input type="text" 
                     placeholder="Video URL" 
