@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 const Room = (props) => {
 
@@ -58,12 +59,14 @@ const Room = (props) => {
                 <button>Submit</button>
             </div>
             <div className="chat-box">
+                <ScrollToBottom className="chat-box">
                 { messages.map((message, i) => {
                     return <div className="message" key={`msg-${i}`}>
                         { message.time + ' ' + message.author + ': ' + 
                             message.message }
                     </div>
                 }) }
+                </ ScrollToBottom>
             </div>
             <div className="chat-input">
                 <input type="text"
@@ -71,7 +74,10 @@ const Room = (props) => {
                     value={newMessage}
                     onChange={(e) => {
                         setNewMessage(e.target.value);
-                    }} />
+                    }} 
+                    onKeyPress={(e) => {
+                        e.key === 'Enter' && sendMessage();
+                    }}/>
                 <button onClick={sendMessage}>Enter</button>
             </div>
         </div>
