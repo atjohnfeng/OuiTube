@@ -25,6 +25,12 @@ const App = () => {
     }
   }
 
+  const leaveRoom = () => {
+    enterRoom(false);
+    setUser("");
+    setRoom("");
+  }
+
   return (
     <div className="App">
       { // User ternary operator to render room or join form
@@ -54,7 +60,8 @@ const App = () => {
           </div> 
       ) : ( 
       // Pass props to child component.
-      <Room socket={socket} username={username} room={room} /> 
+      <Room socket={socket} username={username} room={room} 
+        leaveRoom={leaveRoom}/> 
       )}
     </div>
   );

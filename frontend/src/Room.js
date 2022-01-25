@@ -5,7 +5,7 @@ import ScrollToBottom from 'react-scroll-to-bottom';
 const Room = (props) => {
 
     // Deconstruct props
-    const { socket, username, room } = props;
+    const { socket, username, room, leaveRoom } = props;
 
     // Create State for Video using React Hooks
     const [ video, enterVideo ] = useState("");
@@ -37,12 +37,22 @@ const Room = (props) => {
     const setVideo = async () => {
         if (video.length > 0) {
             let embedLink = video.split("watch?v=");
-            embedLink = embedLink.join('embed/');
-            await socket.emit("setVideo", [embedLink, room]);
-            enterVideo(embedLink);
-            setShow(true);
+            if (embedLink.length !== 2) {
+                alert('Not a valid URL.');
+                setShow(false);
+                enterVideo("");
+            } else {
+                embedLink = embedLink.join('embed/');
+                await socket.emit("setVideo", [embedLink, room]);
+                enterVideo(embedLink);
+                setShow(true);
+            }
         }
     }
+    
+    // const leave = () => {
+    //     leaveRoom();
+    // }
 
     // Add event listener to listen to event changes
     useEffect(() => {
@@ -69,13 +79,14 @@ const Room = (props) => {
                 Room ID: {room}
             </div>
             <div className="video-box">
-                { videoShow ? <iframe width="420" height="315"
-                    src={video}>
-                </iframe> : <div className="empty-video">
-                    Enter a valid YouTube URL</div>}
+                { videoShow ? ( <iframe width="420" height="315"
+                    src={video}> 
+                </iframe> ) : ( <div className="empty-video">
+                    Enter a valid YouTube URL</div> )}
                 <br />
                 <input type="text" 
                     placeholder="Video URL" 
+                    value={video}
                     onChange={(e) => {
                         enterVideo(e.target.value);
                     }} 
@@ -104,6 +115,7 @@ const Room = (props) => {
                         e.key === 'Enter' && sendMessage();
                     }}/>
             </div>
+            <button onClick={leaveRoom}>Leave Room</button>
         </div>
     )
 }
