@@ -59,7 +59,6 @@ const Room = (props) => {
                     onKeyPress={(e) => {
                         e.key === 'Enter' && setVideo(e.target.value);
                     }}/>
-                <button>Submit</button>
             </div>
             <div className="chat-box">
                 <ScrollToBottom className="chat-box">
@@ -81,7 +80,6 @@ const Room = (props) => {
                     onKeyPress={(e) => {
                         e.key === 'Enter' && sendMessage();
                     }}/>
-                <button onClick={sendMessage}>Enter</button>
             </div>
         </div>
     )

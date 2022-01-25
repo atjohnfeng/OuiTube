@@ -36,17 +36,21 @@ const App = () => {
               placeholder="Name" 
               onChange={(e) => {
                 setUser(e.target.value);
+              }}
+              onKeyPress={(e) => {
+                e.key === 'Enter' && joinRoom();
               }}/>
             <input type="text" 
               placeholder="Room ID" 
               onChange={(e) => {
                 setRoom(e.target.value);
+              }}
+              onKeyPress={(e) => {
+                e.key === 'Enter' && joinRoom();
               }}/><br />
             <button
               onClick={joinRoom}
-              onKeyPress={(e) => {
-                e.key === 'Enter' && joinRoom();
-              }}>Enter Room</button>
+             >Enter Room</button>
           </div> 
       ) : ( 
       // Pass props to child component.
