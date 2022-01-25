@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import { useState } from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
@@ -16,6 +16,8 @@ const Room = (props) => {
     const [ messages, setMessages ] = useState([]);
 
     const [ isPlaying, setPlaying ] = useState(false);
+
+    const ref = useRef(null);
 
     // Function to send message
     // Make function asynchronous to make sure function completes before
@@ -67,6 +69,20 @@ const Room = (props) => {
         setPlaying(false);
     }
 
+    const setProgress = async (time) => {
+        let seekTo;
+        let currentTime = ref.current.getCurrentTime();
+        if (time === -1) {
+            seekTo = 0; 
+        } else if (time === 1) {
+            seekTo = currentTime;
+        } else {
+            seekTo = currentTime + time;
+        }
+        await socket.emit("setVideoProgress", [seekTo, room]);
+        ref.current.seekTo(seekTo, 'seconds');
+    }
+
     // Add event listener to listen to event changes
     useEffect(() => {
         socket.on("receiveMessages", (newMessage) => {
@@ -90,12 +106,16 @@ const Room = (props) => {
         });
 
         socket.on("receivePlayState", state => {
-            console.log(state);
+            // console.log(state);
             setPlaying(state[0]);
         });
 
+        socket.on("receiveVideoTime", time => {
+            ref.current.seekTo(time, 'seconds');
+        });
+
     }, [socket]);
-    
+
     return (
         <div className="room-container">
             <h1>OuiTube</h1>
@@ -104,16 +124,43 @@ const Room = (props) => {
             </div>
             <div className="video-box" id="player">
                 { videoShow ? ( 
-                // <iframe width="420" height="315"
-                //     src={currentVideo}> 
-                // </iframe> 
-                <ReactPlayer controls url={currentVideo} 
+                <ReactPlayer url={currentVideo} 
+                    // controls
                     playing={isPlaying}
                     onPlay={setPlayState}
-                    onPause={setPauseState} />
+                    onPause={setPauseState}
+                    // onProgress={setProgress}
+                    ref={ref} />
                 ) 
                 : ( <div className="empty-video">
                     Enter a valid YouTube URL</div> )}
+                <br />
+                <div className="remote-control">
+                    <button onClick={() => setProgress(-1)}>
+                        Rewind to Start
+                    </button>
+                    <button onClick={() => setProgress(-30)}>
+                        -30
+                    </button>
+                    <button onClick={() => setProgress(-10)}>
+                        -10
+                    </button>
+                    <button onClick={() => setProgress(-5)}>
+                        -5
+                    </button>
+                    <button onClick={() => setProgress(5)}>
+                        +5
+                    </button>
+                    <button onClick={() => setProgress(10)}>
+                        +10
+                    </button>
+                    <button onClick={() => setProgress(30)}>
+                        +30
+                    </button>
+                    <button onClick={() => setProgress(1)}>
+                        Resync
+                    </button>
+                </div>
                 <br />
                 Currently Playing: { !!currentVideo ? currentVideo : 'None' }
                 <br />

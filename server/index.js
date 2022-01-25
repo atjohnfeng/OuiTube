@@ -54,6 +54,10 @@ io.on("connection", (socket) => {
     socket.on("setVideoState", (state) => {
         socket.to(state[1]).emit("receivePlayState", state);
     });
+
+    socket.on("setVideoProgress", (state) => {
+        socket.to(state[1]).emit("receiveVideoTime", state[0])
+    })
 });
 
 server.listen(port, () => {
