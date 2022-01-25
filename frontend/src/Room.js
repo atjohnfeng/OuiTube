@@ -65,7 +65,7 @@ const Room = (props) => {
 
         socket.on("receiveVideo", video => {
             // console.log(video);
-            enterVideo(currentVideo);
+            enterVideo(video[0]);
             setCurrentVideo(video[0]);
             setShow(true);
         })
