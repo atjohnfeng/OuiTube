@@ -49,7 +49,11 @@ io.on("connection", (socket) => {
     socket.on("setVideo", (video) => {
         // console.log(video);
         socket.to(video[1]).emit("receiveVideo", video);
-    })
+    });
+
+    socket.on("setVideoState", (state) => {
+        socket.to(state[1]).emit("receivePlayState", state);
+    });
 });
 
 server.listen(port, () => {

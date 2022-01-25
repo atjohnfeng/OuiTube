@@ -15,6 +15,8 @@ const Room = (props) => {
     const [ newMessage, setNewMessage ] = useState("");
     const [ messages, setMessages ] = useState([]);
 
+    const [ isPlaying, setPlaying ] = useState(false);
+
     // Function to send message
     // Make function asynchronous to make sure function completes before
     // moving forward
@@ -54,6 +56,14 @@ const Room = (props) => {
         }
     }
 
+    const setPlayState = async () => {
+        await socket.emit("setVideoState", [true, room]);
+    }
+
+    const setPauseState = async () => {
+        await socket.emit("setVideoState", [false, room]);
+    }
+
     // Add event listener to listen to event changes
     useEffect(() => {
         socket.on("receiveMessages", (newMessage) => {
@@ -68,13 +78,19 @@ const Room = (props) => {
             enterVideo(video[0]);
             setCurrentVideo(video[0]);
             setShow(true);
-        })
+        });
 
         socket.on("receiveUser", message => {
             setMessages(messages => {
                 return [...messages, message];
             });
-        })
+        });
+
+        socket.on("receivePlayState", state => {
+            console.log(state);
+            setPlaying(state[0]);
+        });
+
     }, [socket]);
     
     return (
@@ -88,7 +104,10 @@ const Room = (props) => {
                 // <iframe width="420" height="315"
                 //     src={currentVideo}> 
                 // </iframe> 
-                <ReactPlayer controls url={currentVideo} />
+                <ReactPlayer controls url={currentVideo} 
+                    playing={isPlaying}
+                    onPlay={setPlayState}
+                    onPause={setPauseState} />
                 ) 
                 : ( <div className="empty-video">
                     Enter a valid YouTube URL</div> )}
