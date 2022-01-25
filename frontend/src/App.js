@@ -5,6 +5,10 @@ import Room from './Room';
 
 let environment;
 
+// After attempting to host backend as separate application on Vercel,
+// learned that Vercel does not allow serverless functions with websockets.
+// Hosted backend on Heroku instead.
+
 if (process.env.NODE_ENV === 'production') {
   // environment = 'https://oui-tube-backend.vercel.app';
   environment = 'https://oui-tube.herokuapp.com/';

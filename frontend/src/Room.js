@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import ReactPlayer from 'react-player';
 import { useState } from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 
@@ -37,16 +38,19 @@ const Room = (props) => {
 
     const setVideo = async () => {
         if (video.length > 0) {
-            let embedLink = video.split("watch?v=");
-            if (embedLink.length !== 2) {
-                alert('Not a valid URL.');
-                enterVideo("");
-            } else {
-                embedLink = embedLink.join('embed/');
-                await socket.emit("setVideo", [embedLink, room]);
-                setCurrentVideo(embedLink);
-                setShow(true);
-            }
+            // let embedLink = video.split("watch?v=");
+            // if (embedLink.length !== 2) {
+            //     alert('Not a valid URL.');
+            //     enterVideo("");
+            // } else {
+            //     embedLink = embedLink.join('embed/') + '?enablejsapi=1';
+            //     await socket.emit("setVideo", [embedLink, room]);
+            //     setCurrentVideo(embedLink);
+            //     setShow(true);
+            await socket.emit("setVideo", [video, room]);
+            setCurrentVideo(video);
+            setShow(true);
+            // }
         }
     }
 
@@ -61,6 +65,7 @@ const Room = (props) => {
 
         socket.on("receiveVideo", video => {
             // console.log(video);
+            enterVideo(currentVideo);
             setCurrentVideo(video[0]);
             setShow(true);
         })
@@ -78,10 +83,14 @@ const Room = (props) => {
             <div className="room-header">
                 Room ID: {room}
             </div>
-            <div className="video-box">
-                { videoShow ? ( <iframe width="420" height="315"
-                    src={currentVideo}> 
-                </iframe> ) : ( <div className="empty-video">
+            <div className="video-box" id="player">
+                { videoShow ? ( 
+                // <iframe width="420" height="315"
+                //     src={currentVideo}> 
+                // </iframe> 
+                <ReactPlayer controls url={currentVideo} />
+                ) 
+                : ( <div className="empty-video">
                     Enter a valid YouTube URL</div> )}
                 <br />
                 <input type="text" 
