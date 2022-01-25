@@ -56,12 +56,14 @@ const Room = (props) => {
         }
     }
 
-    const setPlayState = () => {
-        socket.emit("setVideoState", [true, room]);
+    const setPlayState = async () => {
+        await socket.emit("setVideoState", [true, room]);
+        setPlaying(true);
     }
 
-    const setPauseState = () => {
-        socket.emit("setVideoState", [false, room]);
+    const setPauseState = async () => {
+        await socket.emit("setVideoState", [false, room]);
+        setPlaying(false);
     }
 
     // Add event listener to listen to event changes
@@ -75,7 +77,7 @@ const Room = (props) => {
 
         socket.on("receiveVideo", video => {
             // console.log(video);
-            enterVideo(video[0]);
+            // enterVideo(video[0]);
             setCurrentVideo(video[0]);
             setShow(true);
         });
@@ -111,6 +113,8 @@ const Room = (props) => {
                 ) 
                 : ( <div className="empty-video">
                     Enter a valid YouTube URL</div> )}
+                <br />
+                Current Video: { !!currentVideo ? currentVideo : 'None' }
                 <br />
                 <input type="text" 
                     placeholder="Video URL" 
