@@ -43,7 +43,10 @@ const App = () => {
                 setRoom(e.target.value);
               }}/><br />
             <button
-              onClick={joinRoom}>Enter Room</button>
+              onClick={joinRoom}
+              onKeyPress={(e) => {
+                e.key === 'Enter' && joinRoom();
+              }}>Enter Room</button>
           </div> 
       ) : ( 
       // Pass props to child component.

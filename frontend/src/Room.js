@@ -55,7 +55,10 @@ const Room = (props) => {
                     placeholder="Video URL" 
                     onChange={(e) => {
                         setVideo(e.target.value);
-                    }} />
+                    }} 
+                    onKeyPress={(e) => {
+                        e.key === 'Enter' && setVideo(e.target.value);
+                    }}/>
                 <button>Submit</button>
             </div>
             <div className="chat-box">
