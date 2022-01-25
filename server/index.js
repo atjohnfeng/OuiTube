@@ -11,7 +11,7 @@ const port = process.env.PORT || 4000;
 let environment;
 
 if (process.env.NODE_ENV === 'production') {
-    environment = 'https://oui-tube.vercel.app/'
+    environment = 'https://oui-tube.vercel.app'
 } else {
     environment = 'http://localhost:3000'
 }

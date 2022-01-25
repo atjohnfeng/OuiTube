@@ -6,7 +6,7 @@ import Room from './Room';
 let environment;
 
 if (process.env.NODE_ENV === 'production') {
-  environment = 'https://oui-tube-backend.vercel.app/';
+  environment = 'https://oui-tube-backend.vercel.app';
 } else {
   environment = "http://localhost:4000";
 }
