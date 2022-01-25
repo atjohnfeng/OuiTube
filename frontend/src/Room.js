@@ -26,7 +26,7 @@ const Room = (props) => {
 
             await socket.emit("sendMessage", message);
             setMessages(messages => {
-                return [...messages, newMessage]
+                return [...messages, message]
             });
             setNewMessage("");
         }
@@ -57,13 +57,13 @@ const Room = (props) => {
                     }} />
                 <button>Submit</button>
             </div>
-            <ul className="chat-box">
-                { messages.map((message) => {
-                    return <li>
-                        { message }
-                    </li>
+            <div className="chat-box">
+                { messages.map((message, i) => {
+                    return <div className="message" key={`msg-${i}`}>
+                        { message.author + ': ' + message.message }
+                    </div>
                 }) }
-            </ul>
+            </div>
             <div className="chat-input">
                 <input type="text"
                     placeholder={`Message Room`}

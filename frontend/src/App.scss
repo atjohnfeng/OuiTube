@@ -71,6 +71,13 @@ body {
     max-width: 700px;
     max-height: 200px;
     width: 700px;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .chat-box::-webkit-scrollbar {
+    display: none;
   }
 
   h1 {
