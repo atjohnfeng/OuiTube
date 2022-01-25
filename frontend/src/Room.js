@@ -56,12 +56,12 @@ const Room = (props) => {
         }
     }
 
-    const setPlayState = async () => {
-        await socket.emit("setVideoState", [true, room]);
+    const setPlayState = () => {
+        socket.emit("setVideoState", [true, room]);
     }
 
-    const setPauseState = async () => {
-        await socket.emit("setVideoState", [false, room]);
+    const setPauseState = () => {
+        socket.emit("setVideoState", [false, room]);
     }
 
     // Add event listener to listen to event changes
