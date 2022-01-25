@@ -3,7 +3,7 @@
     "name": "oui-tube-backend",
     "builds": [
         {
-            "src": "index.js",
+            "src": "script.js",
             "use": "@vercel/node"
         }
     ],
