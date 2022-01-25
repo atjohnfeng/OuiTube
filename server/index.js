@@ -1,18 +1,27 @@
 // Import libraries and utilities
 const express = require("express");
 const http = require("http");
+// const socketIo = require("socket.io");
 const { Server } = require("socket.io");
 const cors = require("cors");
 
 // Set port to 4000 by default. React will use 3000 by default.
 const port = process.env.PORT || 4000;
 
+let environment;
+
+if (process.env.NODE_ENV === 'production') {
+    environment = 'https://oui-tube.vercel.app/'
+} else {
+    environment = 'http://localhost:3000'
+}
+
 // Initialize server
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: environment,
         methods: ["GET", "POST"]
     }
 });
