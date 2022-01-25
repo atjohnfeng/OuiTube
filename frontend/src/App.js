@@ -8,7 +8,7 @@ let environment;
 if (process.env.NODE_ENV === 'production') {
   environment = 'https://oui-tube-backend.vercel.app/';
 } else {
-  environment = "http://localhost:4000");
+  environment = "http://localhost:4000";
 }
 
 const socket = io.connect(environment);
