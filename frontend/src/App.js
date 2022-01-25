@@ -12,12 +12,14 @@ const App = () => {
   // to update current state.
   const [ username, setUser ] = useState("");
   const [ room, setRoom ] = useState("");
+  const [ joinedRoom, enterRoom ] = useState(false);
 
   // Join room function - user is only allowed to join room if username / ID is
   // filled in.
   const joinRoom = () => {
     if (username.length > 0 && room.length > 0) {
-      socket.emit("joinRoom", [username, room])
+      socket.emit("joinRoom", [username, room]);
+      enterRoom(true);
     } else {
       alert("Invalid username and/or Room ID.");
     }
@@ -25,24 +27,28 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="join-container">
-        <h1>OuiTube</h1>
-        <h3>Enter an existing room ID or create your own.</h3>
-        <input type="text" 
-          placeholder="Name" 
-          onChange={(e) => {
-            setUser(e.target.value);
-          }}/>
-        <input type="text" 
-          placeholder="Room ID" 
-          onChange={(e) => {
-            setRoom(e.target.value);
-          }}/><br />
-        <button
-          onClick={joinRoom}>Enter</button>
-      </div>
-      {/* Pass in props to Room component */}
-      <Room socket={socket} username={username} room={room} />
+      { // User ternary operator to render room or join form
+        !joinedRoom ? (
+          <div className="join-container">
+            <h1>OuiTube</h1>
+            <h3>Enter an existing room ID or create your own.</h3>
+            <input type="text" 
+              placeholder="Name" 
+              onChange={(e) => {
+                setUser(e.target.value);
+              }}/>
+            <input type="text" 
+              placeholder="Room ID" 
+              onChange={(e) => {
+                setRoom(e.target.value);
+              }}/><br />
+            <button
+              onClick={joinRoom}>Enter</button>
+          </div> 
+      ) : ( 
+      // Pass props to child component.
+      <Room socket={socket} username={username} room={room} /> 
+      )}
     </div>
   );
 }
