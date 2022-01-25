@@ -10,5 +10,13 @@
         "heroku"
     ],
     "author": "",
-    "license": ""
+    "license": "",
+    "dependencies": {
+        "express": "^4.17.2",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-router-dom": "^6.2.1",
+        "redux": "^4.1.2",
+        "socket.io": "^4.4.1"
+    }
 }
