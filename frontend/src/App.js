@@ -8,6 +8,8 @@ const socket = io.connect("http://localhost:4000");
 const App = () => {
 
   // useState hook to save username and room
+  // Deconstruct useState, first item is current state, second is function
+  // to update current state.
   const [ username, setUser ] = useState("");
   const [ room, setRoom ] = useState("");
 
