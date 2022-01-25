@@ -8,7 +8,8 @@ const Room = (props) => {
     const { socket, username, room } = props;
 
     // Create State for Video using React Hooks
-    const [ video, setVideo ] = useState("");
+    const [ video, enterVideo ] = useState("");
+    const [ videoShow, setShow ] = useState(false);
     const [ newMessage, setNewMessage ] = useState("");
     const [ messages, setMessages ] = useState([]);
 
@@ -33,6 +34,16 @@ const Room = (props) => {
         }
     }
 
+    const setVideo = async () => {
+        if (video.length > 0) {
+            let embedLink = video.split("watch?v=");
+            embedLink = embedLink.join('embed/');
+            await socket.emit("setVideo", embedLink);
+            enterVideo(embedLink);
+            setShow(true);
+        }
+    }
+
     // Add event listener to listen to event changes
     useEffect(() => {
         socket.on("receiveMessages", (newMessage) => {
@@ -42,6 +53,12 @@ const Room = (props) => {
             })
         });
     }, [socket]);
+
+    // useEffect(() => {
+    //     socket.on("receiveVideo", video => {
+    //         console.log(video);
+    //     })
+    // })
     
     return (
         <div className="room-container">
@@ -50,14 +67,18 @@ const Room = (props) => {
                 Room ID: {room}
             </div>
             <div className="video-box">
-                Video goes here. <br />
+                { videoShow ? <iframe width="420" height="315"
+                    src={video}>
+                </iframe> : <div className="empty-video">
+                    Enter a valid YouTube URL</div>}
+                <br />
                 <input type="text" 
                     placeholder="Video URL" 
                     onChange={(e) => {
-                        setVideo(e.target.value);
+                        enterVideo(e.target.value);
                     }} 
                     onKeyPress={(e) => {
-                        e.key === 'Enter' && setVideo(e.target.value);
+                        e.key === 'Enter' && setVideo();
                     }}/>
             </div>
             <div className="chat-box">
