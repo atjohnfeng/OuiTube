@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "name": "OuiTube",
+    "name": "oui-tube-backend",
     "builds": [
         {
             "src": "script.js",
