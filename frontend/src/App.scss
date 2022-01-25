@@ -30,11 +30,12 @@ body {
   }
 
   button {
-    color:white;
-    font-family: 'Roboto', sans-serif;
-    font-size: 22px;
     background-color: #121212;
     border-radius: 4px;
+    color:white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    padding: 10px;
 
     &:hover {
       background: #222222;
