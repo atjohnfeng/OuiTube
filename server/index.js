@@ -21,12 +21,12 @@ io.on("connection", (socket) => {
 
     // Join room, passing in data received from emit in App.js
     socket.on("joinRoom", (data) => {
-        console.log(`${data[0]} joined the room.`);
+        // console.log(`${data[0]} joined the room.`);
         socket.join(data[1]);
     });
 
     socket.on("sendMessage", (message) => {
-        console.log(message);
+        // console.log(message);
         socket.to(message.room).emit("receiveMessages", message);
     });
 });

@@ -9,13 +9,14 @@ const Room = (props) => {
     // Create State for Video using React Hooks
     const [ video, setVideo ] = useState("");
     const [ newMessage, setNewMessage ] = useState("");
+    const [ messages, setMessages ] = useState([]);
 
     // Function to send message
     // Make function asynchronous to make sure function completes before
     // moving forward
     const sendMessage = async () => {
         if (newMessage.length > 0) {
-            const message = {
+            let message = {
                 room: room,
                 author: username,
                 message: newMessage,
@@ -24,18 +25,26 @@ const Room = (props) => {
             }
 
             await socket.emit("sendMessage", message);
+            setMessages(messages => {
+                return [...messages, newMessage]
+            });
+            setNewMessage("");
         }
     }
 
     // Add event listener to listen to event changes
     useEffect(() => {
-        socket.on("receiveMessages", (messages) => {
-            console.log(messages)
+        socket.on("receiveMessages", (newMessage) => {
+            // console.log(newMessage);
+            setMessages(messages => {
+                return [...messages, newMessage]
+            })
         });
     }, [socket]);
     
     return (
         <div className="room-container">
+            <h1>OuiTube</h1>
             <div className="room-header">
                 Room ID: {room}
             </div>
@@ -48,12 +57,17 @@ const Room = (props) => {
                     }} />
                 <button>Submit</button>
             </div>
-            <div className="chat-box">
-                Chatbox goes here.
-            </div>
+            <ul className="chat-box">
+                { messages.map((message) => {
+                    return <li>
+                        { message }
+                    </li>
+                }) }
+            </ul>
             <div className="chat-input">
                 <input type="text"
                     placeholder={`Message Room`}
+                    value={newMessage}
                     onChange={(e) => {
                         setNewMessage(e.target.value);
                     }} />
