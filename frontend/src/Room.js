@@ -55,16 +55,20 @@ const Room = (props) => {
         socket.on("receiveMessages", (newMessage) => {
             // console.log(newMessage);
             setMessages(messages => {
-                return [...messages, newMessage]
-            })
+                return [...messages, newMessage];
+            });
         });
-    }, [socket]);
 
-    useEffect(() => {
         socket.on("receiveVideo", video => {
             // console.log(video);
             setCurrentVideo(video[0]);
             setShow(true);
+        })
+
+        socket.on("receiveUser", message => {
+            setMessages(messages => {
+                return [...messages, message];
+            });
         })
     }, [socket]);
     

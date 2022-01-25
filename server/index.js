@@ -24,6 +24,11 @@ io.on("connection", (socket) => {
     socket.on("joinRoom", (data) => {
         // console.log(`${data[0]} joined the room.`);
         socket.join(data[1]);
+        socket.to(data[1]).emit("receiveUser", {
+            author: 'System',
+            message: `${data[0]} has joined the room.`,
+            time: ''
+        });
     });
 
     socket.on("sendMessage", (message) => {

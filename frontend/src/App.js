@@ -17,7 +17,7 @@ const App = () => {
   // Join room function - user is only allowed to join room if username / ID is
   // filled in.
   const joinRoom = () => {
-    if (username.length > 0 && room.length > 0) {
+    if (username.length > 0 && room.length > 0 && username !== 'System') {
       socket.emit("joinRoom", [username, room]);
       enterRoom(true);
     } else {
