@@ -60,7 +60,8 @@ const Room = (props) => {
             <div className="chat-box">
                 { messages.map((message, i) => {
                     return <div className="message" key={`msg-${i}`}>
-                        { message.author + ': ' + message.message }
+                        { message.time + ' ' + message.author + ': ' + 
+                            message.message }
                     </div>
                 }) }
             </div>
