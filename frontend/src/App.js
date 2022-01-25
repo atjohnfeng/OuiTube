@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { useState } from 'react';
 import io from "socket.io-client";
 import Room from './Room';
@@ -25,23 +25,24 @@ const App = () => {
 
   return (
     <div className="App">
+      <div className="join-container">
         <h1>OuiTube</h1>
-        <h3>Enter an existing room with a provided ID or create your own.</h3>
+        <h3>Enter an existing room ID or create your own.</h3>
         <input type="text" 
           placeholder="Name" 
           onChange={(e) => {
             setUser(e.target.value);
           }}/>
-        <br />
         <input type="text" 
           placeholder="Room ID" 
           onChange={(e) => {
             setRoom(e.target.value);
-          }}/>
-        <br />
+          }}/><br />
         <button
           onClick={joinRoom}>Enter</button>
-          <Room socket={socket} username={username} room={room} />
+      </div>
+      {/* Pass in props to Room component */}
+      <Room socket={socket} username={username} room={room} />
     </div>
   );
 }
